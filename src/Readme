@@ -1,0 +1,64 @@
+创建数据库和表
+
+关系：
+	User  Role  Privilege
+	User---Role 多对多：一个用户拥有多个角色，一个角色可赋予多个用户
+	User---Privilege 多对多：一个用户拥有多个权限，一个权限可赋予多个用户
+	Role---Privilege 多对多：一个角色拥有多个权限，一个权限可赋予多个角色
+	
+	User和Privilege的关系可通过User---Role  Role----Privilege存入数据库  传递依赖
+	创建5张表
+
+create database managersystem character set utf8 collate utf8_general_ci;
+use managersystem;
+create table user(
+	id varchar(60) primary key,
+	name varchar(40) not null,
+	password varchar(40) not null
+)character set utf8 collate utf8_general_ci;
+
+create table privilege(
+	id varchar(60) primary key,
+	name varchar(40) not null unique,
+	description varchar(300)
+)character set utf8 collate utf8_general_ci;
+
+create table role(
+	id varchar(60) primary key,
+	name varchar(40) not null unique,
+	description varchar(300)
+)character set utf8 collate utf8_general_ci;
+
+create table user_role(
+	user_id varchar(60),
+	role_id varchar(60),
+	primary key(user_id,role_id),
+	constraint user_id_FK foreign key(user_id) references user(id),
+	constraint role_id_FK foreign key(role_id) references role(id)
+)character set utf8 collate utf8_general_ci;
+
+
+create table role_privilege(
+	role_id varchar(60),
+	privilege_id varchar(60),
+	primary key(role_id,privilege_id),
+	constraint role_id_FK2 foreign key(role_id) references role(id),
+	constraint privilege_id_FK foreign key(privilege_id) references privilege(id)
+)character set utf8 collate utf8_general_ci;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
